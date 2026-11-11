@@ -1,0 +1,9 @@
+# Runtime dependencies for the web app + API (versions tested together).
+# PyTorch is installed separately in the Dockerfile (CPU build, much smaller image).
+numpy>=1.26
+matplotlib>=3.8
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+gradio==6.31.0
+huggingface_hub==2.4.0
+tiktoken>=0.7    # only needed if you deploy a BPE-tokenizer model

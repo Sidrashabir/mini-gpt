@@ -1,0 +1,9 @@
+data/
+runs/
+tests/
+.git/
+.github/
+__pycache__/
+*.ipynb
+*.md
+!model/README.md

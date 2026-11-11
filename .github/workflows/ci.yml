@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-deploy.txt pytest httpx ruff
+      - name: Lint
+        run: ruff check .
+      - name: Unit tests (model, engine, API)
+        run: pytest tests -v
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create a placeholder model so the image can build in CI
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python ci_dummy_model.py
+      - name: Build image
+        run: docker build -t mini-gpt .
+      - name: Smoke test the container
+        run: |
+          docker run -d -p 7860:7860 --name app mini-gpt
+          for i in $(seq 1 30); do curl -sf localhost:7860/api/health && break; sleep 2; done
+          curl -sf -X POST localhost:7860/api/generate -H "Content-Type: application/json" \
+            -d '{"prompt":"a","max_new_tokens":20}'

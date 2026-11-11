@@ -1,0 +1,8 @@
+# Everything for training, evaluation, testing and serving.
+torch>=2.1
+-r requirements-deploy.txt
+tiktoken        # BPE tokenizer experiment
+transformers    # evaluate.py --compare_hf
+pytest
+httpx           # API tests
+ruff            # linting

@@ -1,0 +1,34 @@
+{
+  "name": "Mini-GPT",
+  "dataset": "Tiny Shakespeare",
+  "parameters": 795904,
+  "iters": 1000,
+  "val_loss": 2.0429,
+  "example_prompts": null,
+  "eval": [
+    {
+      "model": "Mini-GPT (char)",
+      "params_M": 0.8,
+      "test_loss": 2.06,
+      "perplexity": 7.85,
+      "bits_per_char": 2.9719
+    }
+  ],
+  "model_cfg": {
+    "vocab_size": 65,
+    "block_size": 128,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 128,
+    "dropout": 0.1,
+    "bias": false
+  },
+  "training": {
+    "batch_size": 32,
+    "lr": 0.001,
+    "dropout": 0.1,
+    "max_iters": 1000,
+    "weight_decay": 0.1,
+    "warmup_iters": 100
+  }
+}
